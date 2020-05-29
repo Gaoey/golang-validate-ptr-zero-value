@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"reflect"
 	"testing"
 )
 
@@ -24,21 +23,20 @@ func Test_ValidateZeroValue(t *testing.T) {
 	}
 
 	for i, v := range mock {
-		ref := ValidateZeroValue(v.input)
-		r := GetReflectData(v.flag, ref)
+		r := GetReflectData(v.flag, Get(v.input))
 		if r != v.result {
 			fmt.Printf("ERROR CASE (%d), actual = (%v), expected = (%v)", i+1, r, v.result)
 		}
 	}
 }
 
-func GetReflectData(flag string, v reflect.Value) interface{} {
+func GetReflectData(flag string, v interface{}) interface{} {
 	if flag == "string" {
-		return v.Interface().(string)
+		return v.(string)
 	}
 
 	if flag == "float64" {
-		return v.Interface().(float64)
+		return v.(float64)
 	}
 
 	return nil
